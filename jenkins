@@ -9,7 +9,7 @@ pipeline {
     
                 stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/haravinashivaprasad1-afk/maven.git'
+                git branch: 'main', url: 'https://github.com/haravinashivaprasad1-afk/mavenexams.git'
             }
         }
 
