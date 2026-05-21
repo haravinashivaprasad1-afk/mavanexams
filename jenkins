@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "haravinashivaprasad1/maven-exam"
+        IMAGE_NAME = "haravinashivaprasad1/maven-exam1"
     }
 
     stages {
