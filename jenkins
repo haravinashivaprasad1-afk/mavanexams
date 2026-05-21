@@ -7,12 +7,11 @@ pipeline {
 
     stages {
     
-                stage('Checkout') {
+          stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/haravinashivaprasad1-afk/mavenexams.git'
+                git url: 'https://github.com/Aravind162003/maven-push', branch: 'master'
             }
         }
-
         stage('Build Maven Project') {
             steps {
                 sh 'mvn clean package -DskipTests'
