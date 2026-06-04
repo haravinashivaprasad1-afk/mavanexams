@@ -17,7 +17,7 @@ pipeline {
         stage('Build & SonarQube Analysis') {
             steps {
                 script {
-                    withSonarQubeEnv('My SonarQube Server') {
+                    withSonarQubeEnv('haravinashivaprasad1-afk') {
                         // This builds the app AND runs the code scan together
                         sh "mvn clean package sonar:sonar" 
                     }
