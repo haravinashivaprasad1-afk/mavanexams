@@ -6,33 +6,30 @@ pipeline {
     }
 
     stages {
-
-        stage('SonarQube Analysis') {
-            steps {
-                script {
-                    def scannerHome = tool 'SonarQubeScanner'
-                    withSonarQubeEnv('My SonarQube Server') {
-                        sh "mvn clean package sonar:sonar"
-                    }
-                }
-            }
-        }
-    
-          stage('Checkout') {
+        // 1. Always pull the code first
+        stage('Checkout') {
             steps {
                 git url: 'https://github.com/haravinashivaprasad1-afk/mavanexams.git', branch: 'main'
             }
         }
-        stage('Build Maven Project') {
+
+        // 2. Build and analyze code in one efficient step
+        stage('Build & SonarQube Analysis') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                script {
+                    withSonarQubeEnv('My SonarQube Server') {
+                        // This builds the app AND runs the code scan together
+                        sh "mvn clean package sonar:sonar" 
+                    }
+                }
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("${IMAGE_NAME}:latest")
+                    // Using 'def' or global context to ensure visibility
+                    IMAGE = docker.build("${IMAGE_NAME}:latest")
                 }
             }
         }
@@ -41,7 +38,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'docker') {
-                        dockerImage.push('latest')
+                        IMAGE.push('latest')
                     }
                 }
             }
@@ -54,3 +51,4 @@ pipeline {
         }
     }
 }
+
